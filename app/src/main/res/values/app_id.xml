@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_id">app_id</string>
+    <string name="app_flyer">appflyer_id</string>
+    <string name="meta_app_id">meta_app_id</string>
+    <string name="meta_client_token">meta_client_token</string>
+</resources>
