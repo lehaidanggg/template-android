@@ -6,4 +6,9 @@
     </style>
 
     <style name="Theme.Template_Android" parent="Base.Theme.Template_Android" />
+
+    <style name="DialogTheme_transparent" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
 </resources>
