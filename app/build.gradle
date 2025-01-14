@@ -2,8 +2,10 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-//    id 'com.google.gms.google-services'
-//    id 'com.google.firebase.crashlytics'
+    id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -13,7 +15,7 @@ android {
     defaultConfig {
         applicationId "com.example.template"
         minSdk 24
-        targetSdk 34
+        targetSdk 35
         versionCode 1
         versionName "1.0"
 
@@ -40,23 +42,76 @@ android {
     }
 
     buildFeatures {
+        buildConfig true
         dataBinding true
         viewBinding true
+    }
+
+    bundle {
+        language {
+            enableSplit = false
+        }
     }
 }
 
 dependencies {
     // Core Libraries
-    implementation "androidx.core:core-ktx:1.13.1"
-    implementation "androidx.appcompat:appcompat:1.7.0"
-    implementation "com.google.android.material:material:1.12.0"
-    implementation "androidx.activity:activity:1.9.3"
-    implementation "androidx.constraintlayout:constraintlayout:2.2.0"
+    implementation "androidx.core:core-ktx:"                                        + "1.13.1"
+    implementation "androidx.appcompat:appcompat:"                                  + "1.7.0"
+    implementation "com.google.android.material:material:"                          + "1.12.0"
+    implementation "androidx.constraintlayout:constraintlayout:"                    + "2.2.0"
+    implementation 'androidx.appcompat:appcompat:'                                  + "1.7.0"
+    implementation 'com.google.android.material:material:'                          + "1.12.0"
+    implementation 'androidx.constraintlayout:constraintlayout:'                    + "2.2.0"
+
+    implementation 'androidx.activity:activity:'                                    + "1.9.3"
+    implementation 'androidx.fragment:fragment-ktx:'                                + "1.8.5"
+    implementation 'androidx.room:room-ktx:2.6.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.activity:activity:1.9.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
 
     // Test Libraries
-    testImplementation "junit:junit:4.13.2"
-    androidTestImplementation "androidx.test.ext:junit:1.2.1"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.6.1"
+    testImplementation "junit:junit:"                                               + "4.13.2"
+    androidTestImplementation "androidx.test.ext:junit:"                            + "1.2.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:"               + "3.6.1"
+
+    // LIFECYCLE
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:"                    + "2.8.7"
+    implementation "androidx.lifecycle:lifecycle-livedata-core-ktx:"                + "2.8.7"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:"                     + "2.8.7"
+
+    // DAGGER
+    implementation "com.google.dagger:hilt-android:"                                + "2.51.1"
+    kapt "com.google.dagger:hilt-compiler:"                                         + "2.51.1"
+
+    //FIREBASE
+    implementation platform("com.google.firebase:firebase-bom:"                     +"33.7.0")
+
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation("com.google.firebase:firebase-config-ktx")
 
 
+    //ump
+    implementation("com.google.android.ump:user-messaging-platform:"                + "3.1.0")
+
+    //admob
+    implementation "com.github.heaven-std:ads-advance-lib:"                         + "1.0.5"
+    implementation "com.google.android.gms:play-services-ads:"                      + "23.6.0"
+    implementation "androidx.multidex:multidex:"                                    + "2.0.1"
+    implementation "com.facebook.shimmer:shimmer:"                                  + "0.5.0"
+
+
+    // ROOM
+    implementation "androidx.room:room-runtime:"                                    + "2.6.1"
+    //noinspection KaptUsageInsteadOfKsp
+    kapt "androidx.room:room-compiler:"                                             + "2.6.1"
+    implementation "androidx.room:room-ktx:"                                        + "2.6.1"
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes true
 }

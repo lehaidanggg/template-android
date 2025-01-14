@@ -1,4 +1,4 @@
-package com.example.template.util
+package com.example.template.common
 
 import android.view.View
 
@@ -16,5 +16,4 @@ fun View.visible() {
 fun View.hidden() {
     visibility = View.INVISIBLE
     isEnabled = false
-
 }

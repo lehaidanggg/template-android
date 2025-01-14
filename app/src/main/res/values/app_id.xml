@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_id">app_id</string>
+    <string name="app_id">ca-app-pub-3940256099942544~3347511713</string>
     <string name="app_flyer">appflyer_id</string>
     <string name="meta_app_id">meta_app_id</string>
     <string name="meta_client_token">meta_client_token</string>
+    <string name="adjust_token" translatable="false">ADJUST_TOKEN</string>
+
+
+    <string name="resume_all" translatable="false">ca-app-pub-3940256099942544/9257395921</string>
+
+    <string name="inter_splash" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+
+    <string name="native_language" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+
+    <string name="native_language_selected" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="native_language_setting" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+
+    <string name="native_intro_1" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="native_intro_2" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="native_intro_3" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="native_intro_4" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+
+    <string name="inter_home" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+
+    <string name="banner_home" translatable="false">ca-app-pub-3940256099942544/9214589741</string>
 </resources>

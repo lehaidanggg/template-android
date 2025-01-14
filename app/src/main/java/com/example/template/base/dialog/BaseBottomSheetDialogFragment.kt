@@ -5,21 +5,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
+import com.example.template.base.fragment.Inflate
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-abstract class BaseBottomSheetDialogFragment<B : ViewBinding> : BottomSheetDialogFragment() {
-    lateinit var binding: B
+abstract class BaseBottomSheetDialogFragment<VB : ViewBinding>(
+    private val inflate: Inflate<VB>
+) : BottomSheetDialogFragment() {
+
+    private var _binding: VB? = null
+    val binding get() = _binding!!
+
+
+    open fun setupView() {}
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = makeBinding(inflater, container)
+        _binding = inflate.invoke(inflater, container, false)
         setupView()
         return binding.root
     }
 
-    abstract fun makeBinding(inflater: LayoutInflater, container: ViewGroup?): B
-
-    open fun setupView() {}
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

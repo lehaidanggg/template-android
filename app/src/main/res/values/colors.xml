@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="color_status_bar">#FFFFFFFF</color>
+    <color name="color_txt">#0E0728</color>
+
+    <color name="color_bg_app">#FFFFFFFF</color>
+
 </resources>
