@@ -3,14 +3,13 @@ package com.example.template.data.repositories
 import com.example.template.data.local.daos.UserDao
 import com.example.template.data.local.entities.User
 import com.example.template.di.IoDispatcher
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
-class UseRepository @Inject constructor(
+class UseRepository(
     private val userDao: UserDao,
-    @IoDispatcher private val dispatcher: CoroutineContext
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) {
 
     fun insert(user: User) = flow {

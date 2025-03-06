@@ -65,7 +65,6 @@ class DialogRatingApp(
             dismiss()
         }
         binding.btnRate.setOnClickListener {
-//            SharePrefUtils.forceRated()
             rateUS(indexStar + 1)
             onRateClickListener?.onRateClick(!isFromMenu)
         }

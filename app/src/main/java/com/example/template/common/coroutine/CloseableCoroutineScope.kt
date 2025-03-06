@@ -1,4 +1,4 @@
-package com.example.template.base
+package com.example.template.common.coroutine
 
 import kotlinx.coroutines.*
 import java.io.Closeable

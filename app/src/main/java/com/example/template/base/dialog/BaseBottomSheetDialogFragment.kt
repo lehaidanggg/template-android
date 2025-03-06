@@ -11,7 +11,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 abstract class BaseBottomSheetDialogFragment<VB : ViewBinding>(
     private val inflate: Inflate<VB>
 ) : BottomSheetDialogFragment() {
-
     private var _binding: VB? = null
     val binding get() = _binding!!
 
@@ -24,8 +23,12 @@ abstract class BaseBottomSheetDialogFragment<VB : ViewBinding>(
         savedInstanceState: Bundle?
     ): View {
         _binding = inflate.invoke(inflater, container, false)
-        setupView()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupView()
     }
 
     override fun onDestroyView() {

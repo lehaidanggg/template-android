@@ -3,7 +3,6 @@ package com.example.template.ui.setting
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import com.example.template.BuildConfig
@@ -14,17 +13,10 @@ import com.example.template.ui.dialogs.DialogRatingApp
 import com.example.template.ui.dialogs.DialogThankYou
 import com.example.template.ui.dialogs.OnRateClickListener
 import com.example.template.ui.language.LanguageActivity
-import com.nlbn.ads.util.AppOpenManager
-import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 
-@AndroidEntryPoint
-class SettingActivity : BaseActivity<ActivitySettingBinding>() {
-
-    override fun makeBinding(layoutInflater: LayoutInflater): ActivitySettingBinding {
-        return ActivitySettingBinding.inflate(layoutInflater)
-    }
-
+class SettingActivity : BaseActivity<ActivitySettingBinding>(
+    ActivitySettingBinding::inflate
+) {
     @SuppressLint("SetTextI18n")
     override fun setupView(savedInstanceState: Bundle?) {
         super.setupView(savedInstanceState)
@@ -56,7 +48,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
 
             vLanguage.vRoot.setOnClickListener {
                 val intent = LanguageActivity.newIntent(this@SettingActivity, false)
-                navigateTo(intent)
+                startActivity(intent)
             }
             vShare.vRoot.setOnClickListener {
                 shareThisApp()
@@ -66,7 +58,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
             tvVersion.text = "Ver: $version"
             //
             vRating.vRoot.setOnClickListener { showRatingDialog() }
-            btnBack.setOnClickListener { endThisActivity() }
+            btnBack.setOnClickListener { finish() }
         }
     }
 
@@ -77,7 +69,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
             }
 
             override fun onRateClick(isNeedFinish: Boolean) {
-                AppOpenManager.getInstance().disableAppResume()
+//                AppOpenManager.getInstance().disableAppResume()
                 val dialogThankYou = DialogThankYou()
                 dialogThankYou.show(supportFragmentManager, "")
 
@@ -88,7 +80,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
     }
 
     private fun shareThisApp() {
-        AppOpenManager.getInstance().disableAppResume()
+//        AppOpenManager.getInstance().disableAppResume()
 
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = "text/plain"

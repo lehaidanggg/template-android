@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.example.template.R
-import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 import com.nlbn.ads.banner.BannerPlugin
 import com.nlbn.ads.callback.AdCallback
+import com.nlbn.ads.callback.BannerCallBack
 import com.nlbn.ads.callback.NativeCallback
 import com.nlbn.ads.util.Admob
 import com.nlbn.ads.util.ConsentHelper
@@ -31,8 +31,8 @@ object AdUtils {
                 nativePreloadIntro[adUnitID] = nativeAd
             }
 
-            override fun onAdImpression() {
-                super.onAdImpression()
+            override fun onAdFailedToLoad() {
+                super.onAdFailedToLoad()
                 nativePreloadIntro[adUnitID] = null
             }
         }
@@ -52,8 +52,7 @@ object AdUtils {
     fun displayNativeAd(
         context: Context,
         adUnitID: String,
-        parentView: ViewGroup,
-        isFromLanguage: Boolean = false
+        parentView: ViewGroup
     ) {
         val adNative = nativePreloadIntro[adUnitID]
         if (adNative == null) {
@@ -62,16 +61,31 @@ object AdUtils {
         }
 
         val idLayoutAD = if (Admob.getInstance().isLoadFullAds) {
-            if (isFromLanguage) {
-                R.layout.custom_native_ad
-            } else {
-                R.layout.native_ads_media_fullad
-            }
+            R.layout.ads_media_fullad
         } else {
-            R.layout.custom_native_ad
+            R.layout.ads_media_normal
         }
 
 
+        val adView = LayoutInflater.from(context).inflate(idLayoutAD, null) as NativeAdView
+
+        parentView.removeAllViews()
+        parentView.addView(adView)
+        Admob.getInstance().pushAdsToViewCustom(adNative, adView)
+    }
+
+    fun displayNativeAdLanguageFirst(
+        context: Context,
+        adUnitID: String,
+        parentView: ViewGroup
+    ) {
+        val adNative = nativePreloadIntro[adUnitID]
+        if (adNative == null) {
+            parentView.removeAllViews()
+            return
+        }
+
+        val idLayoutAD = R.layout.ads_media_normal
         val adView = LayoutInflater.from(context).inflate(idLayoutAD, null) as NativeAdView
 
         parentView.removeAllViews()
@@ -84,8 +98,8 @@ object AdUtils {
         adUnitID: String,
         parentView: ViewGroup,
         enabled: Boolean = Admob.getInstance().isLoadFullAds,
-        layoutNormal: Int = R.layout.custom_native_ad,
-        layoutFullAd: Int = R.layout.native_ads_media_fullad,
+        layoutNormal: Int = R.layout.ads_media_normal,
+        layoutFullAd: Int = R.layout.ads_media_fullad,
         onAdShowed: (() -> Unit)? = null
     ) {
         val callback = object : NativeCallback() {
@@ -173,22 +187,8 @@ object AdUtils {
         context: AppCompatActivity,
         adUnitID: String
     ) {
-        val callback = object : AdCallback() {
-            override fun onAdLoaded() {
-                super.onAdLoaded()
-            }
+        val callback = object : BannerCallBack() {
 
-            override fun onAdFailedToLoad(p0: LoadAdError?) {
-                super.onAdFailedToLoad(p0)
-            }
-
-            override fun onAdImpression() {
-                super.onAdImpression()
-            }
-
-            override fun onAdFailedToShow(p0: AdError?) {
-                super.onAdFailedToShow(p0)
-            }
         }
 
         Admob.getInstance().loadBanner(

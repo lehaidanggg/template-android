@@ -1,4 +1,4 @@
-package com.example.template.common
+package com.example.template.common.binding
 
 import android.view.View
 import android.widget.RadioGroup

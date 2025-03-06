@@ -1,14 +1,12 @@
-package com.example.template.common
+package com.example.template.common.resource
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Context
 import android.graphics.drawable.Drawable
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
 
-class ResourcesProvider @Inject constructor(
-    @ApplicationContext val context: Context
+class ResourcesProvider(
+    val context: Context
 ) {
     fun getContentResolver(): ContentResolver = context.contentResolver
 

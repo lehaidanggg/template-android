@@ -2,7 +2,6 @@ package com.example.template.ui.language
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.template.R
@@ -14,32 +13,39 @@ import com.example.template.data.models.AppLanguage
 import com.example.template.databinding.ActivityLanguageBinding
 import com.example.template.ui.home.HomeActivity
 import com.example.template.ui.intro.IntroActivity
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class LanguageActivity : BaseActivity<ActivityLanguageBinding>() {
-
+class LanguageActivity : BaseActivity<ActivityLanguageBinding>(
+    ActivityLanguageBinding::inflate
+) {
     private lateinit var adapter: LanguageAdapter
     private var languageCode = ""
     private var isFromSplash: Boolean = false
     private var isSelected: Boolean = false
 
-
-    override fun makeBinding(layoutInflater: LayoutInflater): ActivityLanguageBinding {
-        return ActivityLanguageBinding.inflate(layoutInflater)
-    }
-
     override fun setupView(savedInstanceState: Bundle?) {
         super.setupView(savedInstanceState)
+        setupRCV()
+    }
 
-        isFromSplash = intent.extras?.getBoolean(IS_FROM_SPLASH) ?: false
-        with(binding) {
-            btnDone.alpha = 0.5F
-            btnDone.setOnClickListener {
-                onClickDone()
-            }
+    override fun setupListener() {
+        super.setupListener()
+        binding.btnDone.setOnClickListener {
+            onClickDone()
         }
         //
+        isFromSplash = intent.extras?.getBoolean(IS_FROM_SPLASH) ?: false
+        if (isFromSplash) {
+            AdUtils.displayNativeAdLanguageFirst(
+                this,
+                getString(R.string.native_language),
+                binding.frAd,
+            )
+        } else {
+            preLoadAd()
+        }
+    }
+
+    private fun setupRCV() {
         adapter = LanguageAdapter(
             AppLanguage.appSupportedLanguages,
             object : IClickLanguage {
@@ -47,7 +53,11 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>() {
                     languageCode = language.code
                     binding.btnDone.alpha = 1F
                     if (!isSelected) {
-                        displayAd(getString(R.string.native_language_selected))
+                        AdUtils.displayNativeAdLanguageFirst(
+                            this@LanguageActivity,
+                            getString(R.string.native_language_selected),
+                            binding.frAd,
+                        )
                     }
                     isSelected = true
                 }
@@ -55,14 +65,7 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>() {
         )
 
         binding.rcv.adapter = adapter
-        //
-        if (isFromSplash) {
-            displayAd(getString(R.string.native_language))
-        } else {
-            preLoadAd()
-        }
     }
-
 
 
     private fun onClickDone() {
@@ -84,20 +87,14 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>() {
         }
     }
 
-    private fun displayAd(adID: String) {
-        AdUtils.displayNativeAd(
-            this,
-            adID,
-            binding.frAd,
-            isFromLanguage = true
-        )
-    }
 
     private fun preLoadAd() = lifecycleScope.safeLaunch {
-        AdUtils.preloadNativeAd(
+        AdUtils.loadAndDisplayNative(
             applicationContext,
             getString(R.string.native_language),
-            true
+            binding.frAd,
+            true,
+            layoutFullAd = R.layout.ads_media_normal
         )
 
         AdUtils.preloadNativeAd(

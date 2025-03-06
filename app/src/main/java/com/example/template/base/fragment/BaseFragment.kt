@@ -1,10 +1,14 @@
 package com.example.template.base.fragment
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
+import android.view.WindowInsetsController
 import android.view.WindowManager
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
@@ -22,6 +26,8 @@ abstract class BaseFragment<VB : ViewBinding>(
 
 
     open fun setupUI(savedInstanceState: Bundle?) {}
+    open fun setupListener() {}
+    open fun observerUI() {}
 
 
     override fun onCreateView(
@@ -35,8 +41,17 @@ abstract class BaseFragment<VB : ViewBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        hideUI()
+        // hide system ui
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            hideNavigationBar()
+        } else {
+            hideNavigationBarLegacy()
+        }
+        //
         setupUI(savedInstanceState)
+        setupListener()
+        observerUI()
+
     }
 
     //=========================================== NAVIGATION =======================================
@@ -111,16 +126,41 @@ abstract class BaseFragment<VB : ViewBinding>(
 
 
     // ======================================== COMMON =============================================
-    private fun hideUI() {
-        val flags = View.SYSTEM_UI_FLAG_LOW_PROFILE or
-                    View.SYSTEM_UI_FLAG_FULLSCREEN or
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-        activity?.window?.decorView?.systemUiVisibility = flags
-        (activity as? AppCompatActivity)?.supportActionBar?.show()
+//    private fun hideUI() {
+//        val flags = View.SYSTEM_UI_FLAG_LOW_PROFILE or
+//                    View.SYSTEM_UI_FLAG_FULLSCREEN or
+//                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+//                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
+//                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+//                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//        activity?.window?.decorView?.systemUiVisibility = flags
+//        (activity as? AppCompatActivity)?.supportActionBar?.show()
+//    }
+
+    // ============================== HIDE UI ===================================
+    @RequiresApi(Build.VERSION_CODES.R)
+    private fun hideNavigationBar() {
+        activity?.window?.insetsController?.apply {
+            hide(WindowInsets.Type.navigationBars())
+//            hide(WindowInsets.Type.systemBars())
+            systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
     }
+    private fun hideNavigationBarLegacy() {
+        activity?.window?.decorView?.systemUiVisibility = (
+//                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+//                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
+//                        View.SYSTEM_UI_FLAG_FULLSCREEN or
+//                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+//                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+//                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
+                        View.SYSTEM_UI_FLAG_FULLSCREEN
+                )
+    }
+
+
 
     protected fun showLoading() {
         val activity = requireActivity()

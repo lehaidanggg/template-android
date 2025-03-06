@@ -3,7 +3,7 @@ package com.example.template.base.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.template.base.CloseableCoroutineScope
+import com.example.template.common.coroutine.CloseableCoroutineScope
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart

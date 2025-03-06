@@ -4,14 +4,12 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.template.base.viewmodel.BaseViewModel
 import com.example.template.base.viewmodel.safeLaunch
-import com.example.template.common.ResourcesProvider
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.example.template.common.resource.ResourcesProvider
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
-@HiltViewModel
 class HomeVM @Inject constructor(
     private val resProvider: ResourcesProvider
 ): BaseViewModel() {

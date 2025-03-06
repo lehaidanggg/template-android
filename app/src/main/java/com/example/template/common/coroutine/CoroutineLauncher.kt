@@ -1,4 +1,4 @@
-package com.example.template.base
+package com.example.template.common.coroutine
 
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext

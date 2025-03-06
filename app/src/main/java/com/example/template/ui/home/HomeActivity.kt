@@ -2,8 +2,6 @@ package com.example.template.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -12,17 +10,12 @@ import com.example.template.base.activity.BaseActivity
 import com.example.template.base.viewmodel.safeLaunch
 import com.example.template.databinding.ActivityHomeBinding
 import com.example.template.ui.setting.SettingActivity
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
-class HomeActivity : BaseActivity<ActivityHomeBinding>() {
-    private val viewmodel by viewModels<HomeVM>()
-
-
-    override fun makeBinding(layoutInflater: LayoutInflater): ActivityHomeBinding {
-        return ActivityHomeBinding.inflate(layoutInflater)
-    }
+class HomeActivity : BaseActivity<ActivityHomeBinding>(
+    ActivityHomeBinding::inflate
+) {
+    private val viewmodel: HomeVM by viewModel()
 
     override fun setupView(savedInstanceState: Bundle?) {
         super.setupView(savedInstanceState)
@@ -46,11 +39,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         when (event) {
             is HomeVM.Event.OpenSetting -> {
                 val intent = SettingActivity.newIntent(this)
-                navigateTo(intent)
+                startActivity(intent)
             }
+
             is HomeVM.Event.OpenDialogResult -> {}
         }
     }
+
 
     companion object {
         fun newIntent(context: AppCompatActivity): Intent {

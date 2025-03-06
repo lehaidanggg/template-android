@@ -1,4 +1,4 @@
-package com.example.template.common
+package com.example.template.common.ext
 
 import android.view.View
 

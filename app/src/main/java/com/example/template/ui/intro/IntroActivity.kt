@@ -8,27 +8,21 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.template.R
 import com.example.template.admob.AdUtils
 import com.example.template.base.activity.BaseActivity
-import com.example.template.common.gone
-import com.example.template.common.visible
+import com.example.template.common.ext.gone
+import com.example.template.common.ext.visible
 import com.example.template.data.SharedPrefs
 import com.example.template.data.models.AdKey
 import com.example.template.data.models.IntroModel
 import com.example.template.databinding.ActivityIntroBinding
 import com.example.template.ui.home.HomeActivity
-import com.google.android.gms.ads.LoadAdError
-import com.nlbn.ads.callback.AdCallback
-import com.nlbn.ads.util.Admob
-import com.nlbn.ads.util.ConsentHelper
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
-class IntroActivity : BaseActivity<ActivityIntroBinding>(), IIntroAdapterListener {
+class IntroActivity : BaseActivity<ActivityIntroBinding>(
+    ActivityIntroBinding::inflate
+), IIntroAdapterListener {
     private lateinit var introAdapter: IntroAdapter
-    private val viewmodel by viewModels<IntroVM>()
+    private val viewmodel: IntroVM by viewModel()
 
-    override fun makeBinding(layoutInflater: LayoutInflater): ActivityIntroBinding {
-        return ActivityIntroBinding.inflate(layoutInflater)
-    }
 
     override fun setupView(savedInstanceState: Bundle?) {
         super.setupView(savedInstanceState)
@@ -65,7 +59,7 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(), IIntroAdapterListene
 
     private fun startHome() {
         val intent = HomeActivity.newIntent(this)
-        navigateTo(intent)
+        startActivity(intent)
         SharedPrefs.isFirstInstall = false
     }
 
