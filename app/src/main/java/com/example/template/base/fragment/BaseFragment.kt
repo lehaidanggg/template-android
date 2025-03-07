@@ -7,12 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
 import android.view.WindowInsetsController
-import android.view.WindowManager
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import com.example.template.R
 import com.example.template.base.activity.BaseActivity
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
