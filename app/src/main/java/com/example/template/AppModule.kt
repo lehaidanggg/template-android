@@ -4,11 +4,8 @@ import androidx.room.Room
 import com.example.template.common.resource.ResourcesProvider
 import com.example.template.data.local.AppDatabase
 import com.example.template.data.repositories.UseRepository
-import com.example.template.ui.home.HomeVM
-import com.example.template.ui.intro.IntroVM
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -23,6 +20,8 @@ interface NamedDI {
 }
 
 val appModule = module {
+
+    single { "Hello Koin" }
     //=========================================OTHER================================================
     single(named(NamedDI.DEFAULT_DISPATCHER)) { Dispatchers.Default }
     single(named(NamedDI.IO_DISPATCHER)) { Dispatchers.IO }
@@ -54,7 +53,7 @@ val appModule = module {
     }
 
     //=========================================VIEWMODEL============================================
-    viewModel { IntroVM(get()) }
-    viewModel { HomeVM(get()) }
+//    viewModel { IntroVM(get()) }
+//    viewModel { HomeVM(get()) }
 
 }
